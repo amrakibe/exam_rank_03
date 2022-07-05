@@ -38,7 +38,6 @@ void ft_putnbr(int nbr, int *len)
 void ft_puthex(unsigned int nbr, int *len)
 {
 	unsigned long nb = nbr;
-	// check^^
 	if (nb < 16)
 	{
 		if (nb < 10)
