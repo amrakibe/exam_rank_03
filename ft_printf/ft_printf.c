@@ -1,5 +1,5 @@
-#include <stdarg.h>
 #include <unistd.h>
+#include <stdarg.h>
 
 void ft_putchar(char c, int *len)
 {
@@ -16,6 +16,7 @@ void ft_putstr(char *str, int *len)
 		while (str[i])
 			ft_putchar(str[i++], len);
 }
+
 void ft_putnbr(int nbr, int *len)
 {
 	long nb = nbr;
@@ -25,9 +26,7 @@ void ft_putnbr(int nbr, int *len)
 		nb = -nb;
 	}
 	if (nb < 10)
-	{
-		ft_putchar(nb + 48, len);
-	}
+		ft_putchar(nb + '0', len);
 	if (nb >= 10)
 	{
 		ft_putnbr(nb / 10, len);
@@ -37,7 +36,7 @@ void ft_putnbr(int nbr, int *len)
 
 void ft_puthex(unsigned int nbr, int *len)
 {
-	unsigned long nb = nbr;
+	long nb = nbr;
 	if (nb < 16)
 	{
 		if (nb < 10)
@@ -56,10 +55,12 @@ int check(va_list args, char type, int *len)
 {
 	if (type == 's')
 		ft_putstr(va_arg(args, char *), len);
-	if (type == 'd')
+	else if (type == 'd')
 		ft_putnbr(va_arg(args, int), len);
-	if (type == 'x')
+	else if (type == 'x')
 		ft_puthex(va_arg(args, unsigned int), len);
+	else
+		write(1, &type, 1);
 	return (*len);
 }
 
@@ -83,10 +84,10 @@ int ft_printf(const char *format, ...)
 	va_end(args);
 	return (len);
 }
-
 int main()
 {
 	ft_printf("%s\n", "toto");
-	ft_printf("Magic %s is %d", "number", 42);
-	ft_printf("\nHexadecimal for %d is %x\n", 42, 42);
+	ft_printf("%%\n");
+	ft_printf("Magic %s is %d\n", "number", 42);
+	ft_printf("Hexadecimal for %d is %x\n", 42, 42);
 }
